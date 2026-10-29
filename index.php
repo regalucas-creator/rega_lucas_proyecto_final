@@ -333,6 +333,13 @@ body > div {
     <input type="password" id="Contraseña" name="Contraseña" placeholder="12345678 " required>
 </div>
 
+
+<div>
+    <label for="Repetir Contraseña">Repetir Contraseña </label>
+    <input type="password" id="Repetir Contraseña" name="Repetir Contraseña" placeholder="12345678 " required>
+</div>
+
+
     
             
             <div>

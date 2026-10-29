@@ -119,7 +119,7 @@ input[type="email"]:focus,
 input[type="password"]:focus,
 select:focus,
 textarea:focus {
-    border-color: #665eff;                      
+    border-color: #14488b;                      
     background: rgb(223, 223, 223);                            /* preguntar las dos cosas */
 }
 
@@ -166,7 +166,7 @@ input[type="checkbox"]:checked {
 
 input[type="radio"]:hover,
 input[type="checkbox"]:hover {
-    border-color: #4f46e5;   
+    border-color: #48f803;   
 }
 
 fieldset > div > div {
@@ -340,7 +340,7 @@ body > div {
             
             <div>
                 <button type="submit"><a href="inicio.html">Iniciar sesion</a></button>
-                <button type="reset">Reiniciar</button>
+                <a href="crear-usuario.php" class="btn btn-outline-secondary w-100">Crear usuario</a>
             </div>
         
             <div>

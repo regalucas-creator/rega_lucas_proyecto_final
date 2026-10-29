@@ -396,7 +396,8 @@ if ($pass === '' || !preg_match('/^[0-9]{7,8}$/', $pass)) {
 $errores[] = 'La constraseña debe tener 7 u 8 números.';
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-$errores[] = 'Ingresá un correo válido.';
+$errores[] = 'Ingr
+esá un correo válido.';
 }
 }
 ?>

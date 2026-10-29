@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,7 +67,7 @@ fieldset {
 }
 
 fieldset:hover {
-    border-color: #50588d;   /* preguntar a mia esto */
+    border-color: #50588d;   
 }
 
 fieldset legend{
@@ -94,7 +92,7 @@ label {
     display: block;          
     font-weight: 1000;       
     font-size: 15px;
-    color: #47435a;          /* preguntar a mia*/
+    color: #47435a;          
     margin-bottom: 0.5rem;   
     cursor: pointer;         
 }
@@ -107,10 +105,10 @@ select,
 textarea {
     width: 50%;                       
     padding: 0.4rem 0.5rem;           
-    border: solid #cbd5e1;         /* preguntar a mia */
+    border: solid #cbd5e1;         
     border-radius: 12px;              
     font-family: Georgia, 'Times New Roman', Times, serif;             
-    background: #ffffff;               /* preguntar a mia */
+    background: #ffffff;               
     
 }
 
@@ -120,13 +118,13 @@ input[type="password"]:focus,
 select:focus,
 textarea:focus {
     border-color: #14488b;                      
-    background: rgb(223, 223, 223);                            /* preguntar las dos cosas */
+    background: rgb(223, 223, 223);                       
 }
 
 input::placeholder,
 textarea::placeholder {
-    color: #6b85aa60;      /* preguntar esto*/
-    font-style: Georgia, 'Times New Roman', Times, serif;  /* preguntar esto */
+    color: #6b85aa60;      
+    font-style: Georgia, 'Times New Roman', Times, serif;  
 }
 
 select {
@@ -181,12 +179,12 @@ fieldset > div > div label {
     cursor: pointer;
     padding: 0.4rem 0.75rem;      
     border-radius: 30px;         
-    background: #f1f5f9;          /* preguntar a mia */
+    background: #f1f5f9;         
 
 }
 
 fieldset > div > div label:has(input:checked) {
-    border-color: #4f46e5;         /* preguntar a mia */
+    border-color: #4f46e5;         
     color: #4f46e5;                
 }
 
@@ -205,11 +203,11 @@ button {
 
 button[type="submit"] {
     background: #0d83d1ff;           
-    color: 0d83d1ff;                  /* preguntar a mia */
+    color: 0d83d1ff;                  
 }
 
 button[type="submit"]:hover {
-    background: #0d83d1ff;                              /* preguntar a mia */
+    background: #0d83d1ff;              
     transform: translateY(-4px);                      
 }
 
@@ -230,7 +228,7 @@ button[type="submit"]:active {
     background: #0d83d1ff;           
     color: white;  
     background: #0d83d1ff;                             
-    transform: translateY(-4px);  
+    transform: translateY(-2px);  
     transform: translateY(0);                          
 
 }

@@ -14,6 +14,6 @@ $conexion->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
 error_log($e->getMessage());
 http_response_code(500);
-exit('No se pudo conectar con la base de datos.');
+exit('ERROR:No se pudo conectar con la base de datos.');
 }
 ?>

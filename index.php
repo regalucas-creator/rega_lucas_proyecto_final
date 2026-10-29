@@ -204,12 +204,12 @@ button {
 }
 
 button[type="submit"] {
-    background: #ffffff;           
-    color: red;                  /* preguntar a mia */
+    background: #0d83d1ff;           
+    color: 0d83d1ff;                  /* preguntar a mia */
 }
 
 button[type="submit"]:hover {
-    background: #fafafa;                              /* preguntar a mia */
+    background: #0d83d1ff;                              /* preguntar a mia */
     transform: translateY(-4px);                      
 }
 
@@ -217,6 +217,23 @@ button[type="submit"]:active {
     transform: translateY(0);                          
 }
 
+.btnbtn-outline-secondaryw-100{
+    font-family: Georgia, 'Times New Roman', Times, serif;      
+    font-weight: 1000;            
+    padding: 0.2rem 1rem;        
+    border: none;
+    border-radius: 20px;           
+    cursor: pointer;               
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #0d83d1ff;           
+    color: white;  
+    background: #0d83d1ff;                             
+    transform: translateY(-4px);  
+    transform: translateY(0);                          
+
+}
 
 button[type="reset"] {
     color: #64748b;               
@@ -342,7 +359,7 @@ body > div {
             
             <div>
                 <button type="submit"><a href="inicio.html">Iniciar sesion</a></button>
-                <a href="crear-usuario.php" class="btn btn-outline-secondary w-100">Crear usuario</a>
+                <a href="crear-usuario.php" class="btnbtn-outline-secondaryw-100">Crear usuario</a>
             </div>
         
             <div>
@@ -362,3 +379,61 @@ body > div {
 
 </body>
 </html>
+
+<?php
+$errores = [];
+$nombre = '';
+$email = '';
+$pass = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$nombre = trim($_POST['nombre'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$pass = trim($_POST['email'] ?? '');
+if ($nombre === '') {
+$errores[] = 'El nombre es obligatorio.';
+}
+if ($pass === '' || !preg_match('/^[0-9]{7,8}$/', $pass)) {
+$errores[] = 'La constraseña debe tener 7 u 8 números.';
+}
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+$errores[] = 'Ingresá un correo válido.';
+}
+}
+?>
+
+<?php
+if (empty($errores)) {
+try {
+$sql = 'INSERT INTO user (nombre,pass, email) VALUES (:nombre, :pass, :email)';
+$stmt = $conexion->prepare($sql);
+$stmt->execute([
+'nombre' => $nombre,
+'pass' => $pass,
+'email' => $email
+]);
+$mensaje = 'Estudiante registrado correctamente.';
+$nombre = '';
+$passs = '';
+$email = '';
+} catch (PDOException $e) {
+if ($e->getCode() === '23000') {
+$errores[] = 'Ese DNI ya está registrado.';
+} else {
+error_log($e->getMessage());
+$errores[] = 'Ocurrió un error al guardar los datos.';
+}
+}
+}
+?>
+
+<?php
+require_once __DIR__ . '/conexion.php';
+$errores = [];
+$mensaje = '';
+$nombre = '';
+$pass = '';
+$email = '';
+function escapar(string $valor): string {
+return htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+}
+?>

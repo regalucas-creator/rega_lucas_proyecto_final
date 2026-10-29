@@ -204,12 +204,12 @@ button {
 }
 
 button[type="submit"] {
-    background: #ffffff;           
+    background: #0d83d1ff;           
     color: red;                  /* preguntar a mia */
 }
 
 button[type="submit"]:hover {
-    background: #fafafa;                              /* preguntar a mia */
+    background: #0d83d1ff;                              /* preguntar a mia */
     transform: translateY(-4px);                      
 }
 
@@ -303,7 +303,7 @@ body > div {
 
 
 <div> 
-<h1>Inicio de Sesión </h1>
+<h1>Registrarse </h1>
 
 
 

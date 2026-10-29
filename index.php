@@ -254,6 +254,8 @@ label:has(+ select[required])::after {
 
 
 
+
+
 @media (max-width: 600px) { 
     body {
         padding: 1rem; 

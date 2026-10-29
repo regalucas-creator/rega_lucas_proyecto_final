@@ -12,7 +12,7 @@ PDO::FETCH_ASSOC
 } catch (PDOException $e) {
 error_log($e->getMessage());
 http_response_code(500);
-exit('No se puedieron encontrar cuentas en la base de datos .');
+exit('No se pudieron encontrar cuentas en la base de datos .');
 }
 function escaparListado(string $v): string {
 return htmlspecialchars(

@@ -72,6 +72,11 @@ fieldset:hover {
     border-color: #50588d;   /* preguntar a mia esto */
 }
 
+fieldset legend{
+    align-items: center;
+    text-align: center;
+}
+
 legend {
     font-weight: 1000;   
     font-size: 30px;        
@@ -136,7 +141,7 @@ input[type="checkbox"] {
     appearance: none;              
     width: 20px;
     height: 20px;
-    border: 1px solid #83a7ac;     /* preguntar mia */         
+    border: 1px solid #83a7ac;              
     vertical-align: middle;        
     cursor: pointer;               
 }
@@ -150,17 +155,18 @@ input[type="checkbox"] {
 }
 
 input[type="radio"]:checked {
-    box-shadow: inset 0 0 0 4px #00ffaa;  /* preguntar a mia */
+    box-shadow: inset 0 0 0 4px #00ffaa;  
 }
 
 input[type="checkbox"]:checked {
-    border-color: #4f46e5; /* preguntar a mia */
-    background: #4f46e5;
+    border-color: #15ff00; 
+    background: #15ff00;
+    
 }
 
 input[type="radio"]:hover,
 input[type="checkbox"]:hover {
-    border-color: #4f46e5;   /* preguntar a mia */
+    border-color: #4f46e5;   
 }
 
 fieldset > div > div {
@@ -198,12 +204,12 @@ button {
 }
 
 button[type="submit"] {
-    background: #01000f;           
+    background: #ffffff;           
     color: red;                  /* preguntar a mia */
 }
 
 button[type="submit"]:hover {
-    background: #ff0000;                              /* preguntar a mia */
+    background: #fafafa;                              /* preguntar a mia */
     transform: translateY(-4px);                      
 }
 
@@ -298,8 +304,7 @@ body > div {
 
 <div> 
 <h1>Inicio de Sesión </h1>
-<p>Complete todos los campos </p>
-<p>Campos marcados con * son obligatorios </p>
+
 
 
 
@@ -323,12 +328,16 @@ body > div {
 </div>
 
 
+<div>
+    <label for="Contraseña">Contraseña </label>
+    <input type="password" id="Contraseña" name="Contraseña" placeholder="12345678 " required>
+</div>
 
     
             
             <div>
-                <button type="submit"><a href="inicio.html">Enviar formulario</a></button>
-                <button type="reset">Reiniciar formulario</button>
+                <button type="submit"><a href="inicio.html">Iniciar sesion</a></button>
+                <button type="reset">Reiniciar</button>
             </div>
         
             <div>

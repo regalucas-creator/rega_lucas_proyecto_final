@@ -334,20 +334,17 @@ body > div {
 
 
 
-<div>
-    <label for="nombre">Nombre </label>
-    <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan " required>
-</div>
+
 
 <div>
     <label for="Correo electrónico">Correo electrónico </label>
-    <input type="email" id="Correo electrónico" name="Correo electrónico" placeholder="Ej: xxxxxxx@gmail.com " required>
+    <input type="email" id="Correo electrónico" name="email" placeholder="Ej: xxxxxxx@gmail.com " required>
 </div>
 
 
 <div>
     <label for="Contraseña">Contraseña </label>
-    <input type="password" id="Contraseña" name="Contraseña" placeholder="12345678 " required>
+    <input type="password" id="Contraseña" name="pass" placeholder="12345678 " required>
 </div>
 
 
@@ -384,18 +381,14 @@ $nombre = '';
 $email = '';
 $pass = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$nombre = trim($_POST['nombre'] ?? '');
 $email = trim($_POST['email'] ?? '');
-$pass = trim($_POST['email'] ?? '');
-if ($nombre === '') {
-$errores[] = 'El nombre es obligatorio.';
-}
+$pass = trim($_POST['pass'] ?? '');
+
 if ($pass === '' || !preg_match('/^[0-9]{7,8}$/', $pass)) {
-$errores[] = 'La constraseña debe tener 7 u 8 números.';
+$errores[] = 'La contraseña debe tener 7 u 8 números.';
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-$errores[] = 'Ingr
-esá un correo válido.';
+$errores[] = 'Ingrese un correo válido.';
 }
 }
 ?>
@@ -403,20 +396,18 @@ esá un correo válido.';
 <?php
 if (empty($errores)) {
 try {
-$sql = 'INSERT INTO user (nombre,pass, email) VALUES (:nombre, :pass, :email)';
+$sql = 'INSERT INTO user (pass, email) VALUES (:pass, :email)';
 $stmt = $conexion->prepare($sql);
 $stmt->execute([
-'nombre' => $nombre,
 'pass' => $pass,
 'email' => $email
 ]);
-$mensaje = 'Estudiante registrado correctamente.';
-$nombre = '';
-$passs = '';
+$mensaje = 'Usuario registrado correctamente.';
+$pass = '';
 $email = '';
 } catch (PDOException $e) {
 if ($e->getCode() === '23000') {
-$errores[] = 'Ese DNI ya está registrado.';
+$errores[] = 'Ese correo ya está registrado.';
 } else {
 error_log($e->getMessage());
 $errores[] = 'Ocurrió un error al guardar los datos.';
@@ -429,7 +420,6 @@ $errores[] = 'Ocurrió un error al guardar los datos.';
 require_once __DIR__ . '/conexion.php';
 $errores = [];
 $mensaje = '';
-$nombre = '';
 $pass = '';
 $email = '';
 function escapar(string $valor): string {

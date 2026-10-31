@@ -327,6 +327,11 @@ body > div {
     <input type="email" id="Correo electrónico" name="Correo electrónico" placeholder="Ej: xxxxxxx@gmail.com " required>
 </div>
 
+<div>
+    <label for="DNI">DNI </label>
+    <input type="text" id="DNI" name="DNI" placeholder="Ej: 12345678 " required>
+</div>
+
 
 <div>
     <label for="Contraseña">Contraseña </label>

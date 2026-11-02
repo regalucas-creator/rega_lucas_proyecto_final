@@ -1,3 +1,51 @@
+<?php
+
+require "conexion.php";
+
+
+$error = "";
+$exito = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+
+    $usuario = trim($_POST["usuario"]);
+    $clave   = $_POST["clave"];
+    $clave2  = $_POST["clave2"];
+    $email   = $_POST["email"];
+
+    
+    if ($usuario === "" || $clave === "" || $clave2 === ""|| $email === "") {
+        $error = "Completá todos los campos.";
+
+        } elseif ($clave !== $clave2) {
+        $error = "Las contraseñas no coinciden.";
+
+    
+    } elseif (strlen($clave) < 8) {
+        $error = "La contraseña debe tener al menos 8 caracteres.";
+
+    } else {
+        $busca = $conexionbd->prepare("SELECT id FROM usuarios WHERE usuario = ?");
+        $busca->execute([$usuario]);
+
+        
+        if ($busca->fetch()) {
+            $error = "Ese usuario ya está registrado.";
+        } else {
+            $hash = password_hash($clave, PASSWORD_DEFAULT);
+
+        
+            $alta = $conexionbd->prepare("INSERT INTO usuarios (usuario, clave) VALUES (?, ?)");
+            $alta->execute([$usuario, $hash]);
+
+            $exito = "Usuario creado correctamente.";
+        }
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -323,14 +371,17 @@ body > div {
 </div>
 
 <div>
+    <label for="DNI">DNI </label>
+    <input type="text" id="DNI" name="DNI" placeholder="Ej: 12345678 " required>
+</div>
+
+
+
+<div>
     <label for="Correo electrónico">Correo electrónico </label>
     <input type="email" id="Correo electrónico" name="Correo electrónico" placeholder="Ej: xxxxxxx@gmail.com " required>
 </div>
 
-<div>
-    <label for="DNI">DNI </label>
-    <input type="text" id="DNI" name="DNI" placeholder="Ej: 12345678 " required>
-</div>
 
 
 <div>

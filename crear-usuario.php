@@ -10,19 +10,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     $usuario = trim($_POST["usuario"]);
-    $clave   = $_POST["clave"];
+    $pass  = $_POST["pass"];
     $clave2  = $_POST["clave2"];
     $email   = $_POST["email"];
 
     
-    if ($usuario === "" || $clave === "" || $clave2 === ""|| $email === "") {
+    if ($usuario === "" || $pass === "" || $clave2 === ""|| $email === "") {
         $error = "Completá todos los campos.";
 
-        } elseif ($clave !== $clave2) {
+        } elseif ($pass !== $clave2) {
         $error = "Las contraseñas no coinciden.";
 
     
-    } elseif (strlen($clave) < 8) {
+    } elseif (strlen($pass) < 8) {
         $error = "La contraseña debe tener al menos 8 caracteres.";
 
     } else {
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($busca->fetch()) {
             $error = "Ese usuario ya está registrado.";
         } else {
-            $hash = password_hash($clave, PASSWORD_DEFAULT);
+            $hash = password_hash($pass, PASSWORD_DEFAULT);
 
         
             $alta = $conexionbd->prepare("INSERT INTO usuarios (usuario, clave) VALUES (?, ?)");
@@ -367,7 +367,7 @@ body > div {
 
 <div>
     <label for="nombre">Nombre </label>
-    <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan " required>
+    <input type="text" id="nombre" name="usuario" placeholder="Ej: Juan " required>
 </div>
 
 <div>

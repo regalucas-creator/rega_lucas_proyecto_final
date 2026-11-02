@@ -337,8 +337,8 @@ body > div {
 
 
 <div>
-    <label for="Correo electrónico">Correo electrónico </label>
-    <input type="email" id="Correo electrónico" name="email" placeholder="Ej: xxxxxxx@gmail.com " required>
+    <label for="nombre">Nombre </label>
+    <input type="text" id="nombre" name="usuario" placeholder="Juan Deibe " required>
 </div>
 
 

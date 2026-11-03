@@ -5,7 +5,7 @@ $sql = 'SELECT id, nombre,
 pass, email, 
 FROM user
 ORDER BY id DESC';
-$consulta = $conexion->query($sql);
+$consulta = $conexionbd->query($sql);
 $estudiantes = $consulta->fetchAll(
 PDO::FETCH_ASSOC
 );

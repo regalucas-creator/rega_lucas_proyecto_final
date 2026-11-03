@@ -353,7 +353,7 @@ body > div {
     
             
             <div>
-                <button type="submit"><a href="inicio.html">Iniciar sesion</a></button>
+                <button type="submit"><a href="panel.php">Iniciar sesion</a></button>
                 <a href="crear-usuario.php" class="btnbtn-outline-secondaryw-100">Crear usuario</a>
             </div>
         
@@ -397,7 +397,7 @@ $errores[] = 'Ingrese un correo válido.';
 if (empty($errores)) {
 try {
 $sql = 'INSERT INTO user (pass, email) VALUES (:pass, :email)';
-$stmt = $conexion->prepare($sql);
+$stmt = $conexionbd->prepare($sql);
 $stmt->execute([
 'pass' => $pass,
 'email' => $email

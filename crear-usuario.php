@@ -356,7 +356,7 @@ body > div {
 
 
 
-<form action="#" method="POST" id="registroForm">
+<form action="" method="POST" id="registroForm">
 
 
 

@@ -10,12 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     $usuario = trim($_POST["usuario"]);
+    $dni = trim($_POST["dni"]);
+    $correo = trim($_POST["correo"]);
     $pass  = $_POST["pass"];
     $clave2  = $_POST["clave2"];
-    $email   = $_POST["email"];
+
 
     
-    if ($usuario === "" || $pass === "" || $clave2 === ""|| $email === "") {
+    if ($usuario === "" || $pass === "" || $clave2 === ""|| $correo === "") {
         $error = "Completá todos los campos.";
 
         } elseif ($pass !== $clave2) {
@@ -36,8 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $hash = password_hash($pass, PASSWORD_DEFAULT);
 
         
-            $alta = $conexionbd->prepare("INSERT INTO usuarios (usuario, clave) VALUES (?, ?)");
-            $alta->execute([$usuario, $hash]);
+            $alta = $conexionbd->prepare("INSERT INTO usuarios (nombre, dni, correo, pass, rol) VALUES (?, ?, ?, ?, ?)");
+            $alta->execute([$usuario, $dni, $correo, $hash, ]);
 
             $exito = "Usuario creado correctamente.";
         }
@@ -367,31 +369,31 @@ body > div {
 
 <div>
     <label for="nombre">Nombre </label>
-    <input type="text" id="nombre" name="usuario" placeholder="Ej: Juan " required>
+    <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan " required>
 </div>
 
 <div>
-    <label for="DNI">DNI </label>
-    <input type="text" id="DNI" name="DNI" placeholder="Ej: 12345678 " required>
-</div>
-
-
-
-<div>
-    <label for="Correo electrónico">Correo electrónico </label>
-    <input type="email" id="Correo electrónico" name="Correo electrónico" placeholder="Ej: xxxxxxx@gmail.com " required>
+    <label for="dni">DNI </label>
+    <input type="text" id="dni" name="dni" placeholder="Ej: 12345678 " required>
 </div>
 
 
 
 <div>
-    <label for="Contraseña">Contraseña </label>
-    <input type="password" id="Contraseña" name="Contraseña" placeholder="12345678 " required>
+    <label for="correo">Correo electrónico </label>
+    <input type="email" id="correo" name="correo" placeholder="Ej: xxxxxxx@gmail.com " required>
+</div>
+
+
+
+<div>
+    <label for="pass">Contraseña </label>
+    <input type="password" id="pass" name="pass" placeholder="12345678 " required>
 </div>
 
 <div>
-    <label for="Repetir Contraseña">Repetir Contraseña </label>
-    <input type="password" id="Repetir Contraseña" name="Repetir Contraseña" placeholder="12345678 " required>
+    <label for="clave2">Repetir Contraseña </label>
+    <input type="password" id="clave2" name="clave2" placeholder="12345678 " required>
 </div>
 
 

@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+if (isset($_SESSION['usuario'])) {
+    header('Location: panel.php');
+    exit();
+}
+?>
+
+
+
+
+
+
+
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -338,13 +355,13 @@ body > div {
 
 <div>
     <label for="nombre">Nombre </label>
-    <input type="text" id="nombre" name="usuario" placeholder="Juan Deibe " required>
+    <input type="text" id="nombre" name="nombre" placeholder="Juan Deibe " required>
 </div>
 
 
 <div>
-    <label for="Contraseña">Contraseña </label>
-    <input type="password" id="Contraseña" name="pass" placeholder="12345678 " required>
+    <label for="pass">Contraseña </label>
+    <input type="password" id="pass" name="pass" placeholder="12345678 " required>
 </div>
 
 
@@ -378,16 +395,16 @@ body > div {
 <?php
 $errores = [];
 $nombre = '';
-$email = '';
+$correo = '';
 $pass = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$email = trim($_POST['email'] ?? '');
+$correo = trim($_POST['correo'] ?? '');
 $pass = trim($_POST['pass'] ?? '');
 
 if ($pass === '' || !preg_match('/^[0-9]{7,8}$/', $pass)) {
 $errores[] = 'La contraseña debe tener 7 u 8 números.';
 }
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
 $errores[] = 'Ingrese un correo válido.';
 }
 }
@@ -400,11 +417,11 @@ $sql = 'INSERT INTO user (pass, email) VALUES (:pass, :email)';
 $stmt = $conexionbd->prepare($sql);
 $stmt->execute([
 'pass' => $pass,
-'email' => $email
+'email' => $correo
 ]);
 $mensaje = 'Usuario registrado correctamente.';
 $pass = '';
-$email = '';
+$correo = '';
 } catch (PDOException $e) {
 if ($e->getCode() === '23000') {
 $errores[] = 'Ese correo ya está registrado.';

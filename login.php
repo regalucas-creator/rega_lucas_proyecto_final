@@ -17,6 +17,7 @@ $fila = $consulta->fetch();
 if ($fila && password_verify($clave, $fila["clave"])) {
 
     $_SESSION["usuario"] = $fila["usuario"];
+    $_SESSION["rol"] = $fila["rol"];
     header("Location: panel.php");
     exit;
 }

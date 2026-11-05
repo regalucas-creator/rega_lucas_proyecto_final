@@ -9,10 +9,10 @@ $exito = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
-    $usuario = trim($_POST["usuario"]);
-    $dni = trim($_POST["dni"]);
-    $correo = trim($_POST["correo"]);
-    $pass  = $_POST["pass"];
+    $usuario = trim($_POST["usuario"]?? "");
+    $dni = trim($_POST["dni"]?? "");
+    $correo = trim($_POST["correo"] ?? "");
+    $pass  = $_POST["pass"]?? "";
     $clave2  = $_POST["clave2"];
 
 
@@ -28,17 +28,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "La contraseña debe tener al menos 8 caracteres.";
 
     } else {
-        $busca = $conexionbd->prepare("SELECT id FROM usuarios WHERE usuario = ?");
-        $busca->execute([$usuario]);
+        $busca = $conexionbd->prepare("SELECT id FROM usuarios WHERE dni = ? OR correo = ? ");
+        $busca->execute([$dni, $correo]);
 
-        
         if ($busca->fetch()) {
             $error = "Ese usuario ya está registrado.";
         } else {
             $hash = password_hash($pass, PASSWORD_DEFAULT);
 
         
-            $alta = $conexionbd->prepare("INSERT INTO usuarios (nombre, dni, correo, pass, rol) VALUES (?, ?, ?, ?, ?)");
+            $alta = $conexionbd->prepare("INSERT INTO usuarios (nombre, dni, correo, pass, rol) VALUES (?, ?, ?, ?, 'usuario')");
             $alta->execute([$usuario, $dni, $correo, $hash, ]);
 
             $exito = "Usuario creado correctamente.";
@@ -46,6 +45,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
+
+<?php if ($error !== ""): ?>
+            <div class="alert alert-danger py-2 text-center"><?= $error ?></div>
+        <?php endif; ?>
+
+        <?php if ($exito !== ""): ?>
+            <div class="alert alert-success py-2 text-center">
+                <?= $exito ?><br>
+                <a href="index.php">Iniciar sesión</a>
+            </div>
+        <?php endif; ?>
 
 
 <!DOCTYPE html>
@@ -368,8 +378,8 @@ body > div {
 
 
 <div>
-    <label for="nombre">Nombre </label>
-    <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan " required>
+    <label for="nombre">Nombre de usuario </label>
+    <input type="text" id="nombre" name="usuario" placeholder="Ej: Juan " required>
 </div>
 
 <div>
@@ -402,8 +412,7 @@ body > div {
     
             
             <div>
-                <button type="submit"><a href="inicio.html">Registrarse</a></button>
-                
+                <button type="submit">Registrarse</button>
             </div>
         
             <div>

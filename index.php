@@ -342,7 +342,8 @@ body > div {
 
 
 
-<form action="#" method="POST" id="registroForm">
+
+<form action="login.php" method="POST" id="registroForm">
 
 
 
@@ -370,7 +371,7 @@ body > div {
     
             
             <div>
-                <button type="submit"><a href="panel.php">Iniciar sesion</a></button>
+                <button type="submit" class="btnbtn-primaryw-100">Iniciar sesion</button>
                 <a href="crear-usuario.php" class="btnbtn-outline-secondaryw-100">Crear usuario</a>
             </div>
         
@@ -392,54 +393,3 @@ body > div {
 </body>
 </html>
 
-<?php
-$errores = [];
-$nombre = '';
-$correo = '';
-$pass = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$correo = trim($_POST['correo'] ?? '');
-$pass = trim($_POST['pass'] ?? '');
-
-if ($pass === '' || !preg_match('/^[0-9]{7,8}$/', $pass)) {
-$errores[] = 'La contraseña debe tener 7 u 8 números.';
-}
-if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-$errores[] = 'Ingrese un correo válido.';
-}
-}
-?>
-
-<?php
-if (empty($errores)) {
-try {
-$sql = 'INSERT INTO user (pass, email) VALUES (:pass, :email)';
-$stmt = $conexionbd->prepare($sql);
-$stmt->execute([
-'pass' => $pass,
-'email' => $correo
-]);
-$mensaje = 'Usuario registrado correctamente.';
-$pass = '';
-$correo = '';
-} catch (PDOException $e) {
-if ($e->getCode() === '23000') {
-$errores[] = 'Ese correo ya está registrado.';
-} else {
-error_log($e->getMessage());
-$errores[] = 'Ocurrió un error al guardar los datos.';
-}
-}
-}
-?>
-
-<?php
-require_once __DIR__ . '/conexion.php';
-$errores = [];
-$mensaje = '';
-$pass = '';
-$email = '';
-function escapar(string $valor): string {
-return htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
-}
-?>

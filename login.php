@@ -1,26 +1,25 @@
 
 <?php
 session_start();
-
-
 require "conexion.php";
 
-$usuario = $_POST["usuario"];
-$clave   = $_POST["clave"];
+
+$usuario = $_POST["nombre"] ?? "";
+$pass    = $_POST["pass"] ?? "";
 
 
-$consulta = $conexionbd->prepare("SELECT * FROM usuarios WHERE usuario = ?");
+$consulta = $conexionbd->prepare("SELECT * FROM usuarios WHERE nombre = ?");
 $consulta->execute([$usuario]);
 $fila = $consulta->fetch(); 
 
 
-if ($fila && password_verify($clave, $fila["clave"])) {
 
-    $_SESSION["usuario"] = $fila["usuario"];
+
+if (password_verify($pass, $fila["pass"])) {
+    
+    $_SESSION["usuario"] = $fila["nombre"];
     $_SESSION["rol"] = $fila["rol"];
     header("Location: panel.php");
     exit;
-}
-
-header("Location: index.php?error=1");
+} 
 ?>

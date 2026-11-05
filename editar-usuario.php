@@ -7,5 +7,12 @@ exit('Identificador inválido.');
 }
 $stmt = $conexionbd->prepare('SELECT id, nombre,  dni, correo
 FROM usuarios WHERE id = :id AND archivado_en IS NULL LIMIT 1');
+?>
 
-
+UPDATE usuarios
+SET nombre = :nombre,
+apellido = :apellido,
+dni = :dni,
+AND archivado_en IS NULL;
+email = :email
+WHERE id = :id

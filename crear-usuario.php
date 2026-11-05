@@ -27,6 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (strlen($pass) < 8) {
         $error = "La contraseña debe tener al menos 8 caracteres.";
 
+           } elseif (strlen($dni) < 8) {
+        $error = "El DNI debe tener al menos 8 caracteres.";
+
     } else {
         $busca = $conexionbd->prepare("SELECT id FROM usuarios WHERE dni = ? OR correo = ? ");
         $busca->execute([$dni, $correo]);

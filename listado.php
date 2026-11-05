@@ -19,6 +19,9 @@ return htmlspecialchars(
 $v, ENT_QUOTES, 'UTF-8'
 );
 }
+header('Location: panel.php')
+
+
 
 ?>
 <!DOCTYPE html>

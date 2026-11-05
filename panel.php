@@ -1,8 +1,8 @@
 <?php
-// Inicia la sesión
+
 session_start();
 
-// Guardia: si no hay sesión, no puede entrar
+
 if (!isset($_SESSION["usuario"])) {
     header("Location: index.php");
     exit;
@@ -21,7 +21,7 @@ if (!isset($_SESSION["usuario"])) {
     <nav class="navbar navbar-dark bg-primary">
         <div class="container">
             <span class="navbar-brand mb-0 h1">Mi Panel</span>
-            <!-- Va a logout.php, que cierra la sesión -->
+
             <a href="logout.php" class="btn btn-light btn-sm">Salir</a>
         </div>
     </nav>
@@ -29,14 +29,14 @@ if (!isset($_SESSION["usuario"])) {
     <div class="container mt-5">
         <div class="card shadow-sm">
             <div class="card-body p-4">
-                <!-- Muestra el nombre del usuario guardado en la sesión -->
+
                 <h1 class="h4">Bienvenido, <?php echo $_SESSION["usuario"]; ?> 👋</h1>
                 <p class="mb-0 text-secondary">Entraste correctamente. Esta página solo es visible cuando estás logueado.</p>
 
                 <hr>
 
-                <!-- Botón que abre la guía de ejercicios en HTML -->
-                <a href="guia.html" class="btn btn-primary">📖 Ver guía de ejercicios</a>
+
+                <a href="pagina1.html" class="btn btn-primary"> 👇 Toca aqui para ir a la pagina principal</a>
             </div>
         </div>
     </div>

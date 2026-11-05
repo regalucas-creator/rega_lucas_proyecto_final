@@ -3,10 +3,10 @@ require_once __DIR__ . '/conexion.php';
 try {
 $sql = 'SELECT id, nombre,
 pass, email, 
-FROM user
+FROM usuarios
 ORDER BY id DESC';
 $consulta = $conexionbd->query($sql);
-$estudiantes = $consulta->fetchAll(
+$usuarios = $consulta->fetchAll(
 PDO::FETCH_ASSOC
 );
 } catch (PDOException $e) {
@@ -30,31 +30,31 @@ $v, ENT_QUOTES, 'UTF-8'
 <body><main>
 <h1>Listado de cuentas</h1>
 <p><strong>Cuentas:</strong>
-<?= count($estudiantes) ?></p>
-<?php if (empty($estudiantes)): ?>
+<?= count($usuarios) ?></p>
+<?php if (empty($usuarios)): ?>
 <p>No se encontraron cuentas registradas.</p>
 <?php else: ?>
 <table>
 <thead><tr>
 <th>ID</th><th>Nombre</th>
 <th>Apellido</th><th>Pass</th>
-<th>Email</th>
+<th>Correo</th>
 </tr></thead>
 <tbody>
-<?php foreach ($estudiantes
-as $estudiante): ?>
+<?php foreach ($usuarios
+as $usuarios): ?>
 <tr>
 <td><?= escaparListado(
-(string)$estudiante['id']
+(string)$usuarios['id']
 ) ?></td>
 <td><?= escaparListado(
-$estudiante['nombre']
+$usuarios['nombre']
 ) ?></td>
 <td><?= escaparListado(
-$estudiante['pass']
+$usuarios['pass']
 ) ?></td>
 <td><?= escaparListado(
-$estudiante['email']
+$usuarios['correo']
 ) ?></td>
 </tr>
 <?php endforeach; ?>

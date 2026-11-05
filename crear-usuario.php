@@ -44,18 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 }
+
+header("Location: panel.php");{
+            exit();
+        }
 ?>
 
-<?php if ($error !== ""): ?>
-            <div class="alert alert-danger py-2 text-center"><?= $error ?></div>
-        <?php endif; ?>
 
-        <?php if ($exito !== ""): ?>
-            <div class="alert alert-success py-2 text-center">
-                <?= $exito ?><br>
-                <a href="index.php">Iniciar sesión</a>
-            </div>
-        <?php endif; ?>
 
 
 <!DOCTYPE html>

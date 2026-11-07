@@ -3,7 +3,7 @@
 session_start();
 
 
-if (!isset($_SESSION["usuario"])) {
+if (!isset($_SESSION['usuario'])) {
     header("Location: index.php");
     exit;
 }
@@ -37,9 +37,27 @@ if (!isset($_SESSION["usuario"])) {
 
 
                 <a href="pagina1.html" class="btn btn-primary"> 👇 Toca aqui para ir a la pagina principal</a>
+            
+            <?php 
+                
+                if (isset($_SESSION['usuario_rol']) && $_SESSION['usuario_rol'] === 'admin'): 
+                ?>
+            <div class="alert alert-info">
+                        
+                        
+                        <a href="admin-usuario.php" class="btn btn-dark">⚙️ Ir a Administración de Usuarios</a>
+                    </div>
+                <?php endif; ?>
+
+            </div>
+            
+            
+            
             </div>
         </div>
     </div>
+
+    
 
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require "conexion.php";
 
 
@@ -41,16 +41,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         
             $alta = $conexionbd->prepare("INSERT INTO usuarios (nombre, dni, correo, pass, rol) VALUES (?, ?, ?, ?, 'usuario')");
-            $alta->execute([$usuario, $dni, $correo, $hash, ]);
+            $alta->execute([$usuario, $dni, $correo, $hash ]);
 
             $exito = "Usuario creado correctamente.";
+
+            $_SESSION["usuario"] = $usuario;
+            $_SESSION["rol"] = "usuario";
+            header("Location: panel.php");
+            exit;
         }
     }
 }
 
-header("Location: panel.php");{
-            exit();
-        }
 ?>
 
 

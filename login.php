@@ -18,8 +18,12 @@ $fila = $consulta->fetch();
 if (password_verify($pass, $fila["pass"])) {
     
     $_SESSION["usuario"] = $fila["nombre"];
-    $_SESSION["rol"] = $fila["rol"];
+    $_SESSION["usuario_rol"] = $fila["rol"];
     header("Location: panel.php");
     exit;
 } 
+else {
+    header("Location: index.php?error=1");
+    exit;
+}
 ?>

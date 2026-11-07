@@ -1,5 +1,11 @@
 <?php
 require_once __DIR__ . '/conexion.php';
+
+if (!isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'admin') {
+    header("Location: panel.php");
+    exit;
+}
+
 try {
 $sql = 'SELECT id, nombre,
 pass, email, 
@@ -19,7 +25,42 @@ return htmlspecialchars(
 $v, ENT_QUOTES, 'UTF-8'
 );
 }
+
+
+$stmt = $conexionbd->prepare('UPDATE usuarios
+SET archivado_en = CURRENT_TIMESTAMP
+WHERE id = :id
+AND archivado_en IS NULL;');
+
+
+
+
+
+$buscar = trim($_GET['buscar'] ?? '');
+$sql = 'SELECT id, nombre, dni, correo,
+rol, creado_en, archivado_en FROM usuarios
+WHERE archivado_en IS NULL';
+if ($buscar !== '') {
+$sql .= ' AND (nombre LIKE :nombre 
+OR dni LIKE :dni OR correo LIKE :correo)';
+$termino = '%' . $buscar . '%';
+}
+
+
+$parametros = [
+    ':nombre' => $termino ?? '',
+    ':dni' => $termino ?? '',
+    ':correo' => $termino ?? ''
+];
+
+
+$stmt = $conexionbd->prepare($sql);
+$stmt->execute($parametros);
+
+
+
 header('Location: panel.php')
+
 
 
 

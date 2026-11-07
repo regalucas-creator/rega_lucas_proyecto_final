@@ -13,13 +13,13 @@ if ($_SESSION["rol"] !== "admin") {
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if ($id === false || $id === null || $id < 1) {
-    header("Location: admin_usuarios.php");
+    header("Location: admin-usuario.php");
     exit;
 }
 
 $stmt = $conexionbd->prepare('UPDATE usuarios SET archivado_en = CURRENT_TIMESTAMP WHERE id = :id AND archivado_en IS NULL');
 $stmt->execute([':id' => $id]);
 
-header("Location: admin_usuarios.php");
+header("Location: admin-usuario.php");
 exit;
 ?>

@@ -13,17 +13,17 @@ if ($_SESSION["rol"] !== "admin") {
 }
 
 $buscar = trim($_GET['buscar'] ?? '');
-$sql = 'SELECT id, nombre, apellido, dni, email, rol, creado_en, archivado_en FROM usuarios WHERE archivado_en IS NULL';
+$sql = 'SELECT id, nombre,  dni, correo, rol, creado_en, archivado_en FROM usuarios WHERE archivado_en IS NULL';
 $parametros = [];
 
 if ($buscar !== '') {
-    $sql .= ' AND (nombre LIKE :nombre OR apellido LIKE :apellido OR dni LIKE :dni OR email LIKE :email)';
+    $sql .= ' AND (nombre LIKE :nombre  OR dni LIKE :dni OR correo LIKE :corre)';
     $termino = '%' . $buscar . '%';
     $parametros = [
         ':nombre' => $termino,
         ':apellido' => $termino,
         ':dni' => $termino,
-        ':email' => $termino,
+        ':correo' => $termino,
     ];
 }
 
@@ -62,7 +62,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button type="submit" class="btn btn-primary w-100">Buscar</button>
                 </div>
                 <div class="col-md-2">
-                    <a href="admin_usuarios.php" class="btn btn-outline-secondary w-100">Limpiar</a>
+                    <a href="admin-usuario.php" class="btn btn-outline-secondary w-100">Limpiar</a>
                 </div>
                 <div class="col-md-2">
                     <a href="usuarios_archivados.php" class="btn btn-outline-info w-100">📦 Ver archivados</a>
@@ -81,9 +81,8 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Apellido</th>
                                 <th>DNI</th>
-                                <th>Email</th>
+                                <th>Correo</th>
                                 <th>Rol</th>
                                 <th>Creado en</th>
                                 <th>Acciones</th>
@@ -94,9 +93,8 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <tr>
                                 <td><?php echo escapar((string)$usuario['id']); ?></td>
                                 <td><?php echo escapar($usuario['nombre']); ?></td>
-                                <td><?php echo escapar($usuario['apellido']); ?></td>
                                 <td><?php echo escapar($usuario['dni']); ?></td>
-                                <td><?php echo escapar($usuario['email']); ?></td>
+                                <td><?php echo escapar($usuario['correo']); ?></td>
                                 <td><?php echo escapar($usuario['rol']); ?></td>
                                 <td><?php echo escapar($usuario['creado_en']); ?></td>
                                 <td>

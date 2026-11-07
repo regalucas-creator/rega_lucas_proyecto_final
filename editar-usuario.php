@@ -32,25 +32,23 @@ $exito = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
-    $apellido = trim($_POST['apellido'] ?? '');
-    $dni = trim($_POST['dni'] ?? '');
-    $email = trim($_POST['email'] ?? '');
+        $dni = trim($_POST['dni'] ?? '');
+    $correo = trim($_POST['correo'] ?? '');
     $rol = $_POST['rol'] ?? 'usuario';
 
-    if ($nombre === '' || $apellido === '' || $dni === '' || $email === '') {
+    if ($nombre === '' || $dni === '' || $correo === '') {
         $error = "Completá todos los campos.";
     } else {
-        $update = $conexionbd->prepare('UPDATE usuarios SET nombre = :nombre, apellido = :apellido, dni = :dni, email = :email, rol = :rol WHERE id = :id');
+        $update = $conexionbd->prepare('UPDATE usuarios SET nombre = :nombre,  dni = :dni, correo = :correo, rol = :rol WHERE id = :id');
         $update->execute([
             ':nombre' => $nombre,
-            ':apellido' => $apellido,
-            ':dni' => $dni,
-            ':email' => $email,
+                ':dni' => $dni,
+            ':correo' => $correo,
             ':rol' => $rol,
             ':id' => $id,
         ]);
         $exito = "Usuario actualizado correctamente.";
-        $stmt = $conexionbd->prepare('SELECT id, nombre, apellido, dni, email FROM usuarios WHERE id = :id AND archivado_en IS NULL LIMIT 1');
+        $stmt = $conexionbd->prepare('SELECT id, nombre,  dni, correo FROM usuarios WHERE id = :id AND archivado_en IS NULL LIMIT 1');
         $stmt->execute([':id' => $id]);
         $usuario = $stmt->fetch();
     }
@@ -82,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input type="email" name="corre" class="form-control" value="<?php echo escapar($usuario['email']); ?>" required>
+                    <input type="email" name="correo" class="form-control" value="<?php echo escapar($usuario['email']); ?>" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Rol</label>

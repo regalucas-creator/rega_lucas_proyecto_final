@@ -12,7 +12,7 @@ if ($_SESSION["rol"] !== "admin") {
     exit;
 }
 
-$stmt = $conexionbd->prepare('SELECT id, nombre, apellido, dni, email, archivado_en FROM usuarios WHERE archivado_en IS NOT NULL ORDER BY archivado_en DESC');
+$stmt = $conexionbd->prepare('SELECT id, nombre,  dni, correo, archivado_en FROM usuarios WHERE archivado_en IS NOT NULL ORDER BY archivado_en DESC');
 $stmt->execute();
 $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -38,9 +38,9 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
-                            <th>Apellido</th>
+                            
                             <th>DNI</th>
-                            <th>Email</th>
+                            <th>Correo</th>
                             <th>Archivado en</th>
                             <th>Acción</th>
                         </tr>
@@ -50,9 +50,8 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <td><?php echo escapar((string)$usuario['id']); ?></td>
                             <td><?php echo escapar($usuario['nombre']); ?></td>
-                            <td><?php echo escapar($usuario['apellido']); ?></td>
                             <td><?php echo escapar($usuario['dni']); ?></td>
-                            <td><?php echo escapar($usuario['email']); ?></td>
+                            <td><?php echo escapar($usuario['correo']); ?></td>
                             <td><?php echo escapar($usuario['archivado_en']); ?></td>
                             <td>
                                 <a href="reactivar_usuarios.php?id=<?php echo (int)$usuario['id']; ?>" class="btn btn-sm btn-success">♻️ Reactivar</a>

@@ -6,7 +6,7 @@ if (!isset($_SESSION["usuario"])) {
     header("Location: index.php");
     exit;
 }
-if ($_SESSION["rol"] !== "admin") {
+if ($_SESSION["usuario_rol"] !== "admin") {
     header("Location: panel.php");
     exit;
 }

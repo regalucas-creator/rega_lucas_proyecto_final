@@ -24,6 +24,18 @@ if (!isset($_SESSION['usuario'])) {
 
             <a href="logout.php" class="btn btn-light btn-sm">Salir</a>
         </div>
+        <?php
+    if (isset($_SESSION['usuario_rol']) && $_SESSION['usuario_rol'] === 'usuario'): 
+                ?>
+            <div class="alert alert-info">
+                        
+                        
+                        <a href="editar-usuario.php" class="btn btn-dark"> Editar Cuentas</a>
+                    </div>
+                <?php endif; ?>
+
+            </div>
+
     </nav>
 
     <div class="container mt-5">
@@ -31,12 +43,12 @@ if (!isset($_SESSION['usuario'])) {
             <div class="card-body p-4">
 
                 <h1 class="h4">Bienvenido, <?php echo $_SESSION["usuario"]; ?> 👋</h1>
-                <p class="mb-0 text-secondary">Entraste correctamente. Esta página solo es visible cuando estás logueado.</p>
+                <p class="mb-0 text-secondary">Esta página solo es visible cuando estás logueado.</p>
 
                 <hr>
 
 
-                <a href="pagina1.html" class="btn btn-primary"> 👇 Toca aqui para ir a la pagina principal</a>
+                <a href="pagina1.html" class="btn btn-primary">  Toca aca para ir a la pagina principal</a>
             
             <?php 
                 
@@ -45,7 +57,7 @@ if (!isset($_SESSION['usuario'])) {
             <div class="alert alert-info">
                         
                         
-                        <a href="admin-usuario.php" class="btn btn-dark">⚙️ Ir a Administración de Usuarios</a>
+                        <a href="listado.php" class="btn btn-dark"> Administrar Cuentas</a>
                     </div>
                 <?php endif; ?>
 

@@ -1,108 +1,119 @@
 <?php
-require_once __DIR__ . '/conexion.php';
+session_start();
+require "conexion.php";
+require "escapar.php";
 
-if (!isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'admin') {
+// Verificar que haya sesión iniciada
+if (!isset($_SESSION["usuario"])) {
+    header("Location: index.php");
+    exit;
+}
+
+// Opcional: Si entra un admin, lo mandamos a su panel de administración
+if (isset($_SESSION["usuario_rol"]) && $_SESSION["usuario_rol"] === "admin") {
     header("Location: panel.php");
     exit;
 }
 
-try {
-$sql = 'SELECT id, nombre,
-pass, email, 
-FROM usuarios
-ORDER BY id DESC';
-$consulta = $conexionbd->query($sql);
-$usuarios = $consulta->fetchAll(
-PDO::FETCH_ASSOC
-);
-} catch (PDOException $e) {
-error_log($e->getMessage());
-http_response_code(500);
-exit('No se pudieron encontrar cuentas en la base de datos .');
-}
-function escaparListado(string $v): string {
-return htmlspecialchars(
-$v, ENT_QUOTES, 'UTF-8'
-);
+// Buscar los datos del usuario actual utilizando la sesión
+$stmt = $conexionbd->prepare('SELECT id, nombre, dni, correo, rol FROM usuarios WHERE nombre = :nombre AND archivado_en IS NULL LIMIT 1');
+$stmt->execute([':nombre' => $_SESSION["usuario"]]);
+$usuario = $stmt->fetch();
+
+if (!$usuario) {
+    http_response_code(404);
+    exit('Usuario no encontrado.');
 }
 
+$error = "";
+$exito = "";
 
-$stmt = $conexionbd->prepare('UPDATE usuarios
-SET archivado_en = CURRENT_TIMESTAMP
-WHERE id = :id
-AND archivado_en IS NULL;');
+// Lógica para modificar sus propios datos (basado en editar-usuario.php)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombre = trim($_POST['nombre'] ?? '');
+    $dni = trim($_POST['dni'] ?? '');
+    $correo = trim($_POST['correo'] ?? '');
 
+    if ($nombre === '' || $dni === '' || $correo === '') {
+        $error = "Completá todos los campos.";
+    } else {
+        // Actualizamos los datos del usuario en la base de datos
+        $update = $conexionbd->prepare('UPDATE usuarios SET nombre = :nombre, dni = :dni, correo = :correo WHERE id = :id');
+        $update->execute([
+            ':nombre' => $nombre,
+            ':dni' => $dni,
+            ':correo' => $correo,
+            ':id' => $usuario['id'],
+        ]);
+        $exito = "Tus datos han sido actualizados correctamente.";
+        
+        // Actualizamos la sesión por si cambió el nombre de usuario
+        $_SESSION["usuario"] = $nombre;
 
-
-
-
-$buscar = trim($_GET['buscar'] ?? '');
-$sql = 'SELECT id, nombre, dni, correo,
-rol, creado_en, archivado_en FROM usuarios
-WHERE archivado_en IS NULL';
-if ($buscar !== '') {
-$sql .= ' AND (nombre LIKE :nombre 
-OR dni LIKE :dni OR correo LIKE :correo)';
-$termino = '%' . $buscar . '%';
+        // Recargar los datos actualizados
+        $stmt = $conexionbd->prepare('SELECT id, nombre, dni, correo, rol FROM usuarios WHERE id = :id AND archivado_en IS NULL LIMIT 1');
+        $stmt->execute([':id' => $usuario['id']]);
+        $usuario = $stmt->fetch();
+    }
 }
-
-
-$parametros = [
-    ':nombre' => $termino ?? '',
-    ':dni' => $termino ?? '',
-    ':correo' => $termino ?? ''
-];
-
-
-$stmt = $conexionbd->prepare($sql);
-$stmt->execute($parametros);
-
-
-
-header('Location: panel.php')
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Listado de cuentas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Perfil y Listado</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body><main>
-<h1>Listado de cuentas</h1>
-<p><strong>Cuentas:</strong>
-<?= count($usuarios) ?></p>
-<?php if (empty($usuarios)): ?>
-<p>No se encontraron cuentas registradas.</p>
-<?php else: ?>
-<table>
-<thead><tr>
-<th>ID</th><th>Nombre</th>
-<th>Apellido</th><th>Pass</th>
-<th>Correo</th>
-</tr></thead>
-<tbody>
-<?php foreach ($usuarios
-as $usuarios): ?>
-<tr>
-<td><?= escaparListado(
-(string)$usuarios['id']
-) ?></td>
-<td><?= escaparListado(
-$usuarios['nombre']
-) ?></td>
-<td><?= escaparListado(
-$usuarios['pass']
-) ?></td>
-<td><?= escaparListado(
-$usuarios['correo']
-) ?></td>
-</tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-<?php endif; ?>
-</main></body></html>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-primary">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">👤 Mi Cuenta</span>
+        <a href="panel.php" class="btn btn-light btn-sm">Volver al panel</a>
+        <a href="logout.php" class="btn btn-light btn-sm">Salir</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="card shadow-sm" style="max-width: 600px; margin: 0 auto;">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Modificar mis datos</h5>
+
+            <?php if ($error !== ""): ?>
+                <div class="alert alert-danger"><?php echo escapar($error); ?></div>
+            <?php endif; ?>
+            <?php if ($exito !== ""): ?>
+                <div class="alert alert-success"><?php echo escapar($exito); ?></div>
+            <?php endif; ?>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Nombre de usuario</label>
+                    <input type="text" name="nombre" class="form-control" value="<?php echo escapar($usuario['nombre']); ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">DNI</label>
+                    <input type="text" name="dni" class="form-control" value="<?php echo escapar($usuario['dni']); ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Correo electrónico</label>
+                    <input type="email" name="correo" class="form-control" value="<?php echo escapar($usuario['correo']); ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Rol</label>
+                    <input type="text" class="form-control" value="<?php echo escapar($usuario['rol']); ?>" disabled>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                <a href="panel.php" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

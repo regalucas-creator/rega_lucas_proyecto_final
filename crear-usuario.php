@@ -6,7 +6,7 @@ require "conexion.php";
 $error = "";
 $exito = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") 
 
 
     $usuario = trim($_POST["usuario"]?? "");
@@ -40,18 +40,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $hash = password_hash($pass, PASSWORD_DEFAULT);
 
         
-            $alta = $conexionbd->prepare("INSERT INTO usuarios (nombre, dni, correo, pass, rol) VALUES (?, ?, ?, ?, 'usuario')");
-            $alta->execute([$usuario, $dni, $correo, $hash ]);
+        try {
+                $alta = $conexionbd->prepare("INSERT INTO usuarios (nombre, dni, correo, pass, rol) VALUES (?, ?, ?, ?, 'usuario')");
+                $alta->execute([$usuario, $dni, $correo, $hash]);
 
-            $exito = "Usuario creado correctamente.";
+                $exito = "Usuario creado correctamente.";
 
-            $_SESSION["usuario"] = $usuario;
-            $_SESSION["rol"] = "usuario";
-            header("Location: panel.php");
-            exit;
+                $_SESSION["usuario"] = $usuario;
+                $_SESSION["usuario_rol"] = "usuario";
+                header("Location: panel.php");
+                exit;
+            } catch (PDOException $e) {
+                
+                $error = "Ese DNI o correo ya está registrado.";
+            }
         }
     }
-}
 
 ?>
 

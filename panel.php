@@ -23,14 +23,14 @@ if (!isset($_SESSION['usuario'])) {
             <span class="navbar-brand mb-0 h1">Mi Panel</span>
 
             <a href="logout.php" class="btn btn-light btn-sm">Salir</a>
+            
+            
         </div>
         <?php
     if (isset($_SESSION['usuario_rol']) && $_SESSION['usuario_rol'] === 'usuario'): 
                 ?>
-            <div class="alert alert-info">
-                        
-                        
-                        <a href="editar-usuario.php" class="btn btn-dark"> Editar Cuentas</a>
+            <div class="btn btn-light btn-sm">
+            <a href="listado.php" class="btn btn-light btn-sm"> Editar Cuentas</a>
                     </div>
                 <?php endif; ?>
 

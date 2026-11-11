@@ -13,7 +13,7 @@ if ($_SESSION["usuario_rol"] !== "admin") {
 }
 
 $buscar = trim($_GET['buscar'] ?? '');
-$sql = 'SELECT id, nombre,  dni, correo, rol, creado_en, archivado_en FROM usuarios WHERE archivado_en IS NULL';
+$sql = 'SELECT id, nombre,  dni, correo, rol, fecha_creacion, fecha_archivado FROM usuarios WHERE fecha_archivado IS NULL';
 $parametros = [];
 
 if ($buscar !== '') {
@@ -41,7 +41,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body class="bg-light">
 
 <nav class="navbar navbar-dark bg-primary">
-    <span class="navbar-brand mb-0 h1">Administración de Usuarios</span>
+    <span class="navbar-brand mb-0 h1">Administrar Usuarios</span>
     <div class="container">
         <a href="panel.php" class="btn btn-light btn-sm">Volver al panel</a>
         <a href="logout.php" class="btn btn-light btn-sm">Salir</a>
@@ -51,18 +51,10 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mt-4">
     <div class="card shadow-sm">
         <div class="card-body">
-            <h5 class="card-title">Usuarios activos</h5>
+            <h5 class="card-title">Usuarios </h5>
 
-            <form method="GET" action="admin_usuarios.php" class="row g-2 mb-3">
-                <div class="col-md-4">
-                    <input type="search" name="buscar" maxlength="100" class="form-control" placeholder="Nombre, apellido, DNI o correo" value="<?php echo escapar($buscar); ?>">
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
-                </div>
-                <div class="col-md-2">
-                    <a href="admin-usuario.php" class="btn btn-outline-secondary w-100">Limpiar</a>
-                </div>
+            <form method="GET" action="admin_usuario.php" class="row g-2 mb-3">
+                
                 <div class="col-md-2">
                     <a href="usuarios_archivados.php" class="btn btn-outline-info w-100"> Ver archivados</a>
                 </div>
@@ -95,11 +87,13 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo escapar($usuario['dni']); ?></td>
                                 <td><?php echo escapar($usuario['correo']); ?></td>
                                 <td><?php echo escapar($usuario['rol']); ?></td>
-                                <td><?php echo escapar($usuario['creado_en']); ?></td>
+                                <td><?php echo escapar($usuario['fecha_creacion']); ?></td>
                                 <td>
-                                    <a href="editar-usuario.php?id=<?php echo (int)$usuario['id']; ?>" class="btn btn-sm btn-warning">✏️ Editar</a>
-                                    <a href="archivar_usuario.php?id=<?php echo (int)$usuario['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Archivar este usuario?')">📦 Archivar</a>
+                                    <?php if ($usuario['nombre'] !== $_SESSION['usuario']): ?>
+                                    <a href="archivar_usuario.php?id=<?php echo (int)$usuario['id']; ?>" class="btn btn-sm btn-danger" >Archivar</a>
+                                <?php endif; ?>
                                 </td>
+
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

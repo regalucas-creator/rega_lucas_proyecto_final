@@ -7,12 +7,12 @@ if (!isset($_SESSION["usuario"])) {
     header("Location: index.php");
     exit;
 }
-if ($_SESSION["rol"] !== "admin") {
+if ($_SESSION["usuario_usuario_rol"] !== "admin") {
     header("Location: panel.php");
     exit;
 }
 
-$stmt = $conexionbd->prepare('SELECT id, nombre,  dni, correo, archivado_en FROM usuarios WHERE archivado_en IS NOT NULL ORDER BY archivado_en DESC');
+$stmt = $conexionbd->prepare('SELECT id, nombre,  dni, correo, fecha_archivado FROM usuarios WHERE fecha_archivado IS NOT NULL ORDER BY fecha_archivado DESC');
 $stmt->execute();
 $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -27,8 +27,8 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mt-4">
     <div class="card shadow-sm">
         <div class="card-body">
-            <h5 class="card-title">📦 Usuarios archivados</h5>
-            <a href="admin_usuarios.php" class="btn btn-primary mb-3">← Volver a activos</a>
+            <h5 class="card-title">Archivados</h5>
+            <a href="admin_usuario  .php" class="btn btn-primary mb-3">Volver </a>
 
             <?php if (empty($usuarios)): ?>
                 <div class="alert alert-info">No hay usuarios archivados.</div>
@@ -52,9 +52,9 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo escapar($usuario['nombre']); ?></td>
                             <td><?php echo escapar($usuario['dni']); ?></td>
                             <td><?php echo escapar($usuario['correo']); ?></td>
-                            <td><?php echo escapar($usuario['archivado_en']); ?></td>
+                            <td><?php echo escapar($usuario['fecha_archivado']); ?></td>
                             <td>
-                                <a href="reactivar_usuarios.php?id=<?php echo (int)$usuario['id']; ?>" class="btn btn-sm btn-success">♻️ Reactivar</a>
+                                <a href="reactivar_usuarios.php?id=<?php echo (int)$usuario['id']; ?>" class="btn btn-sm btn-success">Reactivar</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

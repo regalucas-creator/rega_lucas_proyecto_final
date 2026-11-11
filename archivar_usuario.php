@@ -17,6 +17,14 @@ if ($id === false || $id === null || $id < 1) {
     exit;
 }
 
+$stmtYo = $conexionbd->prepare('SELECT id FROM usuarios WHERE nombre = :nombre LIMIT 1');
+$stmtYo->execute([':nombre' => $_SESSION["usuario"]]);
+$yo = $stmtYo->fetch();
+if ($yo && (int)$yo['id'] === $id) {
+    header("Location: admin-usuario.php");
+    exit;
+}
+
 $stmt = $conexionbd->prepare('UPDATE usuarios SET archivado_en = CURRENT_TIMESTAMP WHERE id = :id AND archivado_en IS NULL');
 $stmt->execute([':id' => $id]);
 

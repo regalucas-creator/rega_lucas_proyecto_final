@@ -9,6 +9,7 @@ if (!isset($_SESSION["usuario"])) {
 }
 
 $esAdmin = (isset($_SESSION["usuario_rol"]) && $_SESSION["usuario_rol"] === "usuario");
+$esAdmin = (isset($_SESSION["usuario_rol"]) && $_SESSION["usuario_rol"] === "admin");
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if ($id === false || $id === null || $id < 1) {
@@ -21,7 +22,7 @@ if (!$esAdmin) {
     $stmtMe = $conexionbd->prepare('SELECT id FROM usuarios WHERE nombre = :nombre AND fecha_archivado IS NULL LIMIT 1');
     $stmtMe->execute([':nombre' => $_SESSION["usuario"]]);
     $yo = $stmtMe->fetch();
-    if (!$yo || $yo['id'] !== $id) {
+    if ((int)$yo['id'] !== $id) {
         header("Location: panel.php");
         exit;
     }
@@ -47,7 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($nombre === '' || $dni === '' || $correo === '') {
         $error = "Completá todos los campos.";
-    } else {
+        
+    } else
+    $eraMiCuenta = ($usuario['nombre'] === $_SESSION["usuario"]); {
         if ($esAdmin) {
             $update = $conexionbd->prepare('UPDATE usuarios SET nombre = :nombre, dni = :dni, correo = :correo, rol = :rol WHERE id = :id');
             $update->execute([
@@ -70,6 +73,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conexionbd->prepare('SELECT id, nombre, dni, correo, rol FROM usuarios WHERE id = :id AND fecha_archivado IS NULL LIMIT 1');
         $stmt->execute([':id' => $id]);
         $usuario = $stmt->fetch();
+        if ($eraMiCuenta && $usuario) {
+            $_SESSION["usuario"] = $usuario['nombre'];
+            $_SESSION["usuario_rol"] = $usuario['rol'];
+        }
     }
 }
 ?>

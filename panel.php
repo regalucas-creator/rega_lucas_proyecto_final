@@ -56,8 +56,10 @@ if (!isset($_SESSION['usuario'])) {
                 ?>
             <div class="alert alert-info">
                         
-                        
-                        <a href="admin-usuarios.php" class="btn btn-dark"> Administrar Cuentas</a>
+                        <div class="btn btn-light btn-sm">
+            <a href="listado.php" class="btn btn-light btn-sm"> Editar Cuentas</a>
+                    </div>
+                        <a href="admin-usuario.php" class="btn btn-dark"> Administrar Cuentas</a>
                     </div>
                 <?php endif; ?>
 

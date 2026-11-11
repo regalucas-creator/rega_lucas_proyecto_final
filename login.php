@@ -8,7 +8,7 @@ $usuario = $_POST["nombre"] ?? "";
 $pass    = $_POST["pass"] ?? "";
 
 
-$consulta = $conexionbd->prepare("SELECT * FROM usuarios WHERE nombre = ?");
+$consulta = $conexionbd->prepare("SELECT * FROM usuarios WHERE nombre = ? AND fecha_archivado IS NULL");
 $consulta->execute([$usuario]);
 $fila = $consulta->fetch(); 
 

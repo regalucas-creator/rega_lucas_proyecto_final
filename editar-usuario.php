@@ -16,7 +16,7 @@ if ($id === false || $id === null || $id < 1) {
     exit('Identificador inválido.');
 }
 
-// Si NO es admin, solo puede editar su propia cuenta
+
 if (!$esAdmin) {
     $stmtMe = $conexionbd->prepare('SELECT id FROM usuarios WHERE nombre = :nombre AND fecha_archivado IS NULL LIMIT 1');
     $stmtMe->execute([':nombre' => $_SESSION["usuario"]]);

@@ -42,7 +42,7 @@ if (!isset($_SESSION['usuario'])) {
         <div class="card shadow-sm">
             <div class="card-body p-4">
 
-                <h1 class="h4">Bienvenido, <?php echo $_SESSION["usuario"]; ?> 👋</h1>
+                <h1 class="h4">Bienvenido, <?php echo $_SESSION["usuario"]; ?> </h1>
                 <p class="mb-0 text-secondary">Esta página solo es visible cuando estás logueado.</p>
 
                 <hr>
@@ -57,7 +57,7 @@ if (!isset($_SESSION['usuario'])) {
             <div class="alert alert-info">
                         
                         
-                        <a href="listado.php" class="btn btn-dark"> Administrar Cuentas</a>
+                        <a href="admin-usuarios.php" class="btn btn-dark"> Administrar Cuentas</a>
                     </div>
                 <?php endif; ?>
 

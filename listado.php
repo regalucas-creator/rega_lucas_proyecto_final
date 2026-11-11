@@ -3,14 +3,14 @@ session_start();
 require "conexion.php";
 require "escapar.php";
 
-// Verificar que haya sesión iniciada
+
 if (!isset($_SESSION["usuario"])) {
     header("Location: index.php");
     exit;
 }
 
 
-// Buscar los datos del usuario actual utilizando la sesión
+
 $stmt = $conexionbd->prepare('SELECT id, nombre, dni, correo, rol FROM usuarios WHERE nombre = :nombre AND fecha_archivado IS NULL LIMIT 1');
 $stmt->execute([':nombre' => $_SESSION["usuario"]]);
 $usuario = $stmt->fetch();

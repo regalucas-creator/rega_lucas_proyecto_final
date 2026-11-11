@@ -6,7 +6,7 @@ if (!isset($_SESSION["usuario"])) {
     header("Location: index.php");
     exit;
 }
-if ($_SESSION["rol"] !== "admin") {
+if ($_SESSION["usuario_rol"] !== "admin") {
     header("Location: panel.php");
     exit;
 }
@@ -25,7 +25,7 @@ if ($yo && (int)$yo['id'] === $id) {
     exit;
 }
 
-$stmt = $conexionbd->prepare('UPDATE usuarios SET archivado_en = CURRENT_TIMESTAMP WHERE id = :id AND archivado_en IS NULL');
+$stmt = $conexionbd->prepare('UPDATE usuarios SET fecha_archivado = CURRENT_TIMESTAMP WHERE id = :id AND fecha_archivado IS NULL');
 $stmt->execute([':id' => $id]);
 
 header("Location: admin-usuario.php");

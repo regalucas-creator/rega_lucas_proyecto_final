@@ -7,7 +7,7 @@ if (!isset($_SESSION["usuario"])) {
     header("Location: index.php");
     exit;
 }
-if ($_SESSION["usuario_usuario_rol"] !== "admin") {
+if ($_SESSION["usuario_rol"] !== "admin") {
     header("Location: panel.php");
     exit;
 }
@@ -28,7 +28,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="card shadow-sm">
         <div class="card-body">
             <h5 class="card-title">Archivados</h5>
-            <a href="admin_usuario  .php" class="btn btn-primary mb-3">Volver </a>
+            <a href="admin-usuario.php" class="btn btn-primary mb-3">Volver </a>
 
             <?php if (empty($usuarios)): ?>
                 <div class="alert alert-info">No hay usuarios archivados.</div>

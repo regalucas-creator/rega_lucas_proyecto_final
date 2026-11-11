@@ -17,7 +17,7 @@ if ($id === false || $id === null || $id < 1) {
     exit;
 }
 
-$stmt = $conexionbd->prepare('UPDATE usuarios SET archivado_en = NULL WHERE id = :id AND archivado_en IS NOT NULL');
+$stmt = $conexionbd->prepare('UPDATE usuarios SET fecha_archivado = NULL WHERE id = :id AND fecha_archivado IS NOT NULL');
 $stmt->execute([':id' => $id]);
 
 header("Location: usuarios_archivados.php");

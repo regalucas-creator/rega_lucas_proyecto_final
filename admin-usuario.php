@@ -7,7 +7,7 @@ if (!isset($_SESSION["usuario"])) {
     header("Location: index.php");
     exit;
 }
-if ($_SESSION["rol"] !== "admin") {
+if ($_SESSION["usuario_rol"] !== "admin") {
     header("Location: panel.php");
     exit;
 }
@@ -17,11 +17,10 @@ $sql = 'SELECT id, nombre,  dni, correo, rol, creado_en, archivado_en FROM usuar
 $parametros = [];
 
 if ($buscar !== '') {
-    $sql .= ' AND (nombre LIKE :nombre  OR dni LIKE :dni OR correo LIKE :corre)';
+    $sql .= ' AND (nombre LIKE :nombre  OR dni LIKE :dni OR correo LIKE :correo)';
     $termino = '%' . $buscar . '%';
     $parametros = [
         ':nombre' => $termino,
-        ':apellido' => $termino,
         ':dni' => $termino,
         ':correo' => $termino,
     ];
@@ -42,8 +41,8 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body class="bg-light">
 
 <nav class="navbar navbar-dark bg-primary">
+    <span class="navbar-brand mb-0 h1">Administración de Usuarios</span>
     <div class="container">
-        <span class="navbar-brand mb-0 h1">⚙️ Administración de Usuarios</span>
         <a href="panel.php" class="btn btn-light btn-sm">Volver al panel</a>
         <a href="logout.php" class="btn btn-light btn-sm">Salir</a>
     </div>
@@ -65,10 +64,10 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a href="admin-usuario.php" class="btn btn-outline-secondary w-100">Limpiar</a>
                 </div>
                 <div class="col-md-2">
-                    <a href="usuarios_archivados.php" class="btn btn-outline-info w-100">📦 Ver archivados</a>
+                    <a href="usuarios_archivados.php" class="btn btn-outline-info w-100"> Ver archivados</a>
                 </div>
                 <div class="col-md-2">
-                    <a href="crear-usuario.php" class="btn btn-success w-100">+ Nuevo</a>
+                    <a href="crear-usuario.php" class="btn btn-success w-100">Nuevo</a>
                 </div>
             </form>
 
